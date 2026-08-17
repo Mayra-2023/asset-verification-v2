@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Search Asset - Asset Verification System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        header {
+            background: #1f4e78;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .search-box,
+        .asset-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-form input {
+            flex: 1;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 13px 25px;
+            background: #1f4e78;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #163a5c;
+        }
+
+        .asset-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .field {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+
+        .field strong {
+            display: block;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 15px;
+            background: #e8f0f7;
+            color: #1f4e78;
+            font-weight: bold;
+        }
+
+        .no-results {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            color: #664d03;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 20px;
+            background: #777;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 700px) {
+            .search-form {
+                flex-direction: column;
+            }
+
+            .asset-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Search Asset</h1>
+    <p>Asset Verification System</p>
+</header>
+
+<div class="container">
+
+    <div class="search-box">
+
+        <h2>Search by Asset ID</h2>
+
+        <form
+            method="GET"
+            action="{{ url_for('search') }}"
+            class="search-form">
+
+            <input
+                type="text"
+                name="asset_id"
+                value="{{ request.args.get('asset_id', '') }}"
+                placeholder="Enter Asset ID"
+                required>
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+
+    {% if asset %}
+
+    <div class="asset-card">
+
+        <h2>Asset Information</h2>
+
+        <div class="asset-grid">
+
+            <div class="field">
+                <strong>Asset ID</strong>
+                {{ asset.get('Asset ID', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Fleet Number</strong>
+                {{ asset.get('Fleet Number', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Year</strong>
+                {{ asset.get('Year', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Registration Number</strong>
+                {{ asset.get('Registration Number', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Fleet Type</strong>
+                {{ asset.get('Fleet Type', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Depot</strong>
+                {{ asset.get('Depot', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Make</strong>
+                {{ asset.get('Make', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Model</strong>
+                {{ asset.get('Model', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Engine Number</strong>
+                {{ asset.get('Engine Number', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Chassis Number</strong>
+                {{ asset.get('Chassis Number', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Status</strong>
+
+                <span class="status">
+                    {{ asset.get('Status', '') }}
+                </span>
+            </div>
+
+            <div class="field">
+                <strong>Verification Status</strong>
+
+                <span class="status">
+                    {{ asset.get('Verification Status', '') }}
+                </span>
+            </div>
+
+            <div class="field">
+                <strong>Captured By</strong>
+                {{ asset.get('Captured By', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Employee Number</strong>
+                {{ asset.get('Employee Number', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Date Verified</strong>
+                {{ asset.get('Date Verified', '') }}
+            </div>
+
+            <div class="field">
+                <strong>Description</strong>
+                {{ asset.get('Description', '') }}
+            </div>
+
+        </div>
+
+        {% if asset.get('Image URL') %}
+
+        <div style="margin-top:25px;">
+
+            <h3>Asset Photo</h3>
+
+            <img
+                src="{{ asset.get('Image URL') }}"
+                alt="Asset photo"
+                style="max-width:100%; max-height:500px; border-radius:8px;">
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+    {% elif request.args.get('asset_id') %}
+
+    <div class="no-results">
+
+        No asset found with ID:
+
+        <strong>
+            {{ request.args.get('asset_id') }}
+        </strong>
+
+    </div>
+
+    {% endif %}
+
+
+    <a
+        href="{{ url_for('index') }}"
+        class="back">
+
+        Back to Home
+
+    </a>
+
+</div>
+
+</body>
+</html>
