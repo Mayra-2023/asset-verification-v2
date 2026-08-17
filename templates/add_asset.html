@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Asset - Asset Verification System</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        header {
+            background: #1f4e78;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 12px;
+        }
+
+        button,
+        .back-button {
+            padding: 13px 22px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        button {
+            background: #1f4e78;
+            color: white;
+        }
+
+        button:hover {
+            background: #163a5c;
+        }
+
+        .back-button {
+            background: #777;
+            color: white;
+        }
+
+        .photo-note {
+            margin-top: 5px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Add Asset</h1>
+    <p>Asset Verification System</p>
+</header>
+
+<div class="container">
+
+    <div class="form-card">
+
+        <form method="POST"
+              action="{{ url_for('add_asset') }}"
+              enctype="multipart/form-data">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="asset_id">Asset ID *</label>
+                    <input
+                        type="text"
+                        id="asset_id"
+                        name="asset_id"
+                        required
+                        placeholder="Example: AST-001">
+                </div>
+
+                <div class="form-group">
+                    <label for="fleet_number">Fleet Number</label>
+                    <input
+                        type="text"
+                        id="fleet_number"
+                        name="fleet_number">
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <input
+                        type="number"
+                        id="year"
+                        name="year"
+                        min="1900"
+                        max="2100">
+                </div>
+
+                <div class="form-group">
+                    <label for="registration_number">
+                        Registration Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registration_number"
+                        name="registration_number">
+                </div>
+
+                <div class="form-group">
+                    <label for="fleet_type">Fleet Type</label>
+
+                    <select id="fleet_type" name="fleet_type">
+
+                        <option value="">Select Fleet Type</option>
+
+                        <option value="Vehicle">
+                            Vehicle
+                        </option>
+
+                        <option value="Truck">
+                            Truck
+                        </option>
+
+                        <option value="Trailer">
+                            Trailer
+                        </option>
+
+                        <option value="Machine">
+                            Machine
+                        </option>
+
+                        <option value="Equipment">
+                            Equipment
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="depot">Depot</label>
+
+                    <select id="depot" name="depot">
+
+                        <option value="">
+                            Select Depot
+                        </option>
+
+                        <option value="Maragra">
+                            Maragra
+                        </option>
+
+                        <option value="Xinavane">
+                            Xinavane
+                        </option>
+
+                        <option value="Matola">
+                            Matola
+                        </option>
+
+                        <option value="Mafambisse">
+                            Mafambisse
+                        </option>
+
+                        <option value="Marromeu">
+                            Marromeu
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="make">Make</label>
+
+                    <input
+                        type="text"
+                        id="make"
+                        name="make"
+                        placeholder="Example: Toyota">
+                </div>
+
+                <div class="form-group">
+                    <label for="model">Model</label>
+
+                    <input
+                        type="text"
+                        id="model"
+                        name="model"
+                        placeholder="Example: Hilux">
+                </div>
+
+                <div class="form-group">
+                    <label for="engine_number">
+                        Engine Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="engine_number"
+                        name="engine_number">
+                </div>
+
+                <div class="form-group">
+                    <label for="chassis_number">
+                        Chassis Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="chassis_number"
+                        name="chassis_number">
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status</label>
+
+                    <select id="status" name="status">
+
+                        <option value="Active">
+                            Active
+                        </option>
+
+                        <option value="Standby">
+                            Standby
+                        </option>
+
+                        <option value="Under Maintenance">
+                            Under Maintenance
+                        </option>
+
+                        <option value="Damaged">
+                            Damaged
+                        </option>
+
+                        <option value="Missing">
+                            Missing
+                        </option>
+
+                        <option value="To be Scrapped">
+                            To be Scrapped
+                        </option>
+
+                        <option value="Scrapped">
+                            Scrapped
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="captured_by">
+                        Captured By
+                    </label>
+
+                    <input
+                        type="text"
+                        id="captured_by"
+                        name="captured_by"
+                        placeholder="Name of person verifying">
+                </div>
+
+                <div class="form-group">
+                    <label for="employee_number">
+                        Employee Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="employee_number"
+                        name="employee_number">
+                </div>
+
+                <div class="form-group full">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Asset description..."></textarea>
+
+                </div>
+
+                <div class="form-group full">
+
+                    <label for="notes">
+                        Notes
+                    </label>
+
+                    <textarea
+                        id="notes"
+                        name="notes"
+                        placeholder="Additional notes..."></textarea>
+
+                </div>
+
+                <div class="form-group full">
+
+                    <label for="image">
+                        Asset Photo
+                    </label>
+
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*"
+                        capture="environment">
+
+                    <div class="photo-note">
+                        You can take a new photo using your phone
+                        or select an existing image.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="buttons">
+
+                <button type="submit">
+                    Save Asset
+                </button>
+
+                <a
+                    href="{{ url_for('index') }}"
+                    class="back-button">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
