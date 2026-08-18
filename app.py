@@ -21,20 +21,20 @@ SCOPES = [
 
 def get_google_credentials():
     """
-    Creates Google credentials from the GOOGLE_CREDENTIALS
-    environment variable stored in Render.
+    Loads Google Service Account credentials
+    from the Render Secret File.
     """
-    credentials_json = os.environ.get("GOOGLE_CREDENTIALS")
 
-    if not credentials_json:
-        raise Exception("GOOGLE_CREDENTIALS environment variable is missing.")
+    credentials_file = "/etc/secrets/google-service-account.json"
 
-    import json
+    if not os.path.exists(credentials_file):
+        raise Exception(
+            "Google Service Account file not found: "
+            + credentials_file
+        )
 
-    credentials_data = json.loads(credentials_json)
-
-    return Credentials.from_service_account_info(
-        credentials_data,
+    return Credentials.from_service_account_file(
+        credentials_file,
         scopes=SCOPES
     )
 
